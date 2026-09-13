@@ -100,7 +100,7 @@ class ScrapflyBrowserProvider(BrowserProvider):
         session_id = f"hermes_{task_id}_{uuid.uuid4().hex[:8]}"
 
         params: Dict[str, str] = {
-            "api_key": api_key,
+            "key": api_key,
             "proxy_pool": f"public_{proxy_pool}_pool",
             "os": os_fingerprint,
             "session": session_id,
