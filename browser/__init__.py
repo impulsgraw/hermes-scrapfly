@@ -10,7 +10,7 @@ Env: ``SCRAPFLY_API_KEY`` (required)
 
 from __future__ import annotations
 
-from plugins.scrapfly.browser.provider import ScrapflyBrowserProvider
+from .provider import ScrapflyBrowserProvider
 
 
 def register(ctx) -> None:

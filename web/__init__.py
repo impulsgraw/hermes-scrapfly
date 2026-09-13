@@ -11,7 +11,7 @@ Env: ``SCRAPFLY_API_KEY`` (required), ``SCRAPFLY_FORMAT`` (default ``markdown``)
 
 from __future__ import annotations
 
-from plugins.scrapfly.web.provider import ScrapflyWebSearchProvider
+from .provider import ScrapflyWebSearchProvider
 
 
 def register(ctx) -> None:

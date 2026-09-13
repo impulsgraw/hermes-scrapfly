@@ -29,7 +29,8 @@ The plugin source lives **outside** the `hermes-agent/` tree in `./plugins/scrap
 To install into a Hermes Agent:
 
 ```bash
-hermes install plugin git@github.com:impulsgraw/hermes-scrapfly.git
+hermes install plugin git@github.com:impulsgraw/hermes-scrapfly.git/web
+hermes install plugin git@github.com:impulsgraw/hermes-scrapfly.git/browser
 ```
 
 Alternatively, copy (or symlink) the repo root contents directly into `~/.hermes/plugins/scrapfly/` — Hermes also loads user plugins from `$HERMES_HOME/plugins/`.
