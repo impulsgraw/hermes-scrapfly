@@ -25,7 +25,7 @@ from agent.secret_scope import get_secret
 logger = logging.getLogger(__name__)
 
 _WS_BASE = "wss://browser.scrapfly.io"
-_DEFAULT_PROXY_POOL = "datacenter"
+_DEFAULT_PROXY_POOL = "residential"
 _DEFAULT_OS = "linux"
 _DEFAULT_TTL = 900
 _MAX_TTL = 1800
@@ -100,7 +100,7 @@ class ScrapflyBrowserProvider(BrowserProvider):
         session_id = f"hermes_{task_id}_{uuid.uuid4().hex[:8]}"
 
         params: Dict[str, str] = {
-            "key": api_key,
+            "api_key": api_key,
             "proxy_pool": f"public_{proxy_pool}_pool",
             "os": os_fingerprint,
             "session": session_id,
@@ -113,6 +113,8 @@ class ScrapflyBrowserProvider(BrowserProvider):
         # The target URL isn't known at session-creation time (agent-browser navigates
         # later), so we omit ``target_url``. The proxy selection is therefore blind
         # to the destination — country pinning via ``country`` still applies.
+
+        logger.info(cdp_url)
 
         logger.info(
             "Created Scrapfly Cloud Browser session %s (proxy=%s, os=%s, ttl=%ds)",
