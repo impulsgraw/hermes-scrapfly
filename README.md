@@ -24,22 +24,15 @@ This plugin is compatible with hermes v0.21.2 (v2026.9.11).
 
 ## Separability
 
-The plugin source lives **outside** the `hermes-agent/` tree in `./plugins/scrapfly/`. Hermes Agent discovers it via **symlinks** from its own plugin directory:
+The plugin source lives **outside** the `hermes-agent/` tree in `./plugins/scrapfly/`. 
 
-```
-hermes-agent/plugins/web/scrapfly    → ../../../plugins/scrapfly/web
-hermes-agent/plugins/browser/scrapfly → ../../../plugins/scrapfly/browser
-```
-
-To install into a different Hermes Agent clone, re-create the symlinks:
+To install into a Hermes Agent:
 
 ```bash
-# From the hermes-agent directory:
-ln -sfn ../../../plugins/scrapfly/web plugins/web/scrapfly
-ln -sfn ../../../plugins/scrapfly/browser plugins/browser/scrapfly
+hermes install plugin git@github.com:impulsgraw/hermes-scrapfly.git
 ```
 
-Alternatively, copy the `plugins/scrapfly/` tree directly into `~/.hermes/plugins/scrapfly/` — Hermes also loads user plugins from `$HERMES_HOME/plugins/`.
+Alternatively, copy (or symlink) the repo root contents directly into `~/.hermes/plugins/scrapfly/` — Hermes also loads user plugins from `$HERMES_HOME/plugins/`.
 
 ## .env Configuration
 
