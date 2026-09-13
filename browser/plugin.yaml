@@ -1,0 +1,7 @@
+name: browser-scrapfly
+version: 1.0.0
+description: "Scrapfly (https://scrapfly.io) Cloud Browser backend. Connects to remote Chromium sessions via CDP WebSocket with anti-bot bypass, datacenter/residential proxies, OS fingerprinting, session persistence, and debug recording. Requires SCRAPFLY_API_KEY."
+author: Hermes Plugin
+kind: backend
+provides_browser_providers:
+  - scrapfly

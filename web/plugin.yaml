@@ -1,0 +1,7 @@
+name: web-scrapfly
+version: 1.0.0
+description: "Scrapfly (https://scrapfly.io) web content extraction backend. Uses the Scrape API to extract clean LLM-ready content (markdown, text, HTML) with anti-bot bypass, datacenter/residential proxies, and JS rendering. Requires SCRAPFLY_API_KEY."
+author: Hermes Plugin
+kind: backend
+provides_web_providers:
+  - scrapfly
