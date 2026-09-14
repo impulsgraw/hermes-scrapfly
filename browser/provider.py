@@ -114,7 +114,7 @@ class ScrapflyBrowserProvider(BrowserProvider):
         # later), so we omit ``target_url``. The proxy selection is therefore blind
         # to the destination — country pinning via ``country`` still applies.
 
-        logger.info(cdp_url)
+        #logger.info(cdp_url)
 
         logger.info(
             "Created Scrapfly Cloud Browser session %s (proxy=%s, os=%s, ttl=%ds)",
