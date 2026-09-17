@@ -24,7 +24,7 @@ from agent.secret_scope import get_secret
 
 logger = logging.getLogger(__name__)
 
-_WS_BASE = "wss://browser.scrapfly.io"
+_WS_BASE = "wss://browser.scrapfly.io/"
 _DEFAULT_PROXY_POOL = "residential"
 _DEFAULT_OS = "linux"
 _DEFAULT_TTL = 900
