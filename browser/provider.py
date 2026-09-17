@@ -29,6 +29,9 @@ _DEFAULT_PROXY_POOL = "residential"
 _DEFAULT_OS = "linux"
 _DEFAULT_TTL = 900
 _MAX_TTL = 1800
+_DEFAULT_COUNTRY = "nl"
+_SOLVE_CAPTCHA = True
+_BROWSER_LANGUAGE = "en"
 
 
 class ScrapflyBrowserProvider(BrowserProvider):
@@ -83,7 +86,7 @@ class ScrapflyBrowserProvider(BrowserProvider):
         os_fingerprint = (
             (get_secret("SCRAPFLY_BROWSER_OS") or "").strip() or _DEFAULT_OS
         )
-        country = (get_secret("SCRAPFLY_BROWSER_COUNTRY") or "").strip()
+        country = (get_secret("SCRAPFLY_BROWSER_COUNTRY") or "").strip() or _DEFAULT_COUNTRY
 
         raw_ttl = (get_secret("SCRAPFLY_BROWSER_SESSION_TTL") or "").strip()
         try:
@@ -105,16 +108,16 @@ class ScrapflyBrowserProvider(BrowserProvider):
             "os": os_fingerprint,
             "session": session_id,
             "timeout": str(ttl),
+            "auto_close": "false",
+            "solve_captcha": "true" if _SOLVE_CAPTCHA else "false",
+            "block_fonts": "true",
+            "blacklist": "true",
+            "lang": _BROWSER_LANGUAGE
         }
         if country:
             params["country"] = country
 
         cdp_url = f"{_WS_BASE}?{urlencode(params)}"
-        # The target URL isn't known at session-creation time (agent-browser navigates
-        # later), so we omit ``target_url``. The proxy selection is therefore blind
-        # to the destination — country pinning via ``country`` still applies.
-
-        #logger.info(cdp_url)
 
         logger.info(
             "Created Scrapfly Cloud Browser session %s (proxy=%s, os=%s, ttl=%ds)",
@@ -132,14 +135,14 @@ class ScrapflyBrowserProvider(BrowserProvider):
                 "proxy_pool": proxy_pool,
                 "os": os_fingerprint,
                 "country": country or None,
+                # Scrapfly allows exactly ONE live CDP connection per session:
+                # a second concurrent WebSocket drops the first, so Hermes must
+                # not attach its persistent CDP supervisor alongside agent-browser.
+                "single_connection": True,
             },
         }
 
     def close_session(self, session_id: str) -> bool:
-        """Scrapfly Cloud Browser sessions auto-close on CDP disconnect when
-        ``auto_close=true`` (the default), or expire at their TTL. If a manual
-        close is needed, a DELETE to the CDP endpoint is not documented — so
-        this is a best-effort no-op that always reports success."""
         logger.debug(
             "Scrapfly Cloud Browser session %s will auto-close on disconnect or TTL expiry",
             session_id,
@@ -147,8 +150,6 @@ class ScrapflyBrowserProvider(BrowserProvider):
         return True
 
     def emergency_cleanup(self, session_id: str) -> None:
-        """Best-effort teardown from signal/atexit handlers. Sessions auto-close,
-        so this is safe as a no-op."""
         logger.debug(
             "Emergency cleanup for Scrapfly session %s (auto-close on disconnect)",
             session_id,
